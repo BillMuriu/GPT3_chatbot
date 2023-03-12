@@ -91,7 +91,7 @@ function autoReply() {
 	let message = `
 		<div class="chatbox-message-item received">
 			<span class="chatbox-message-item-text">
-				Thank you for your awesome support!
+            {{ formatted_response }}
 			</span>
 			<span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
 		</div>

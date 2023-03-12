@@ -30,7 +30,7 @@ def home(request):
         # this runs if the request method is GET
         else:
             # this will render when there is no request POST or after every POST request
-            return render(request, 'assistant/home.html')
+            return render(request, 'assistant/html/home.html')
     # the except statement will capture any error
     except:
         # this will redirect to the 404 page after any error is caught
