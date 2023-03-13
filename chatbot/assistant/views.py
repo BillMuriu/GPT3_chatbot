@@ -14,15 +14,18 @@ def home(request):
             message.save()
             context = {
                 'formatted_response': formatted_response,
-                'prompt': prompt
+                'prompt': prompt,
+                'openaimessage_set': OpenAIMessage.objects.all()
             }
             return render(request, 'assistant/home.html', context)
         else:
-            return render(request, 'assistant/home.html')
+            context = {'openaimessage_set': OpenAIMessage.objects.all()}
+            return render(request, 'assistant/home.html', context)
     except:
         return redirect('error_handler')
     
 def error_handler(request):
     return render(request, 'assistant/error_handler.html')
+
 
 
