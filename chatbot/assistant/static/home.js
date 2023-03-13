@@ -28,85 +28,86 @@ chatboxToggle.addEventListener('click', function () {
 
 
 
-// DROPDOWN TOGGLE
-const dropdownToggle = document.querySelector('.chatbox-message-dropdown-toggle')
-const dropdownMenu = document.querySelector('.chatbox-message-dropdown-menu')
+// // DROPDOWN TOGGLE
+// const dropdownToggle = document.querySelector('.chatbox-message-dropdown-toggle')
+// const dropdownMenu = document.querySelector('.chatbox-message-dropdown-menu')
 
-dropdownToggle.addEventListener('click', function () {
-	dropdownMenu.classList.toggle('show')
-})
+// dropdownToggle.addEventListener('click', function () {
+// 	dropdownMenu.classList.toggle('show')
+// })
 
-document.addEventListener('click', function (e) {
-	if(!e.target.matches('.chatbox-message-dropdown, .chatbox-message-dropdown *')) {
-		dropdownMenu.classList.remove('show')
-	}
-})
-
-
+// document.addEventListener('click', function (e) {
+// 	if(!e.target.matches('.chatbox-message-dropdown, .chatbox-message-dropdown *')) {
+// 		dropdownMenu.classList.remove('show')
+// 	}
+// })
 
 
 
 
 
-// CHATBOX MESSAGE
-const chatboxMessageWrapper = document.querySelector('.chatbox-message-content')
-const chatboxNoMessage = document.querySelector('.chatbox-message-no-message')
-
-chatboxForm.addEventListener('submit', function (e) {
-	e.preventDefault()
-
-	if(isValid(textarea.value)) {
-		writeMessage()
-		setTimeout(autoReply, 1000)
-	}
-})
 
 
+// // CHATBOX MESSAGE
+// const chatboxMessageWrapper = document.querySelector('.chatbox-message-content')
+// const chatboxNoMessage = document.querySelector('.chatbox-message-no-message')
 
-function addZero(num) {
-	return num < 10 ? '0'+num : num
-}
+// chatboxForm.addEventListener('submit', function (e) {
+// 	e.preventDefault()
 
-function writeMessage() {
-	const today = new Date()
-	let message = `
-		<div class="chatbox-message-item sent">
-			<span class="chatbox-message-item-text">
-				${textarea.value.trim().replace(/\n/g, '<br>\n')}
-			</span>
-			<span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
-		</div>
-	`
-	chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
-	chatboxForm.style.alignItems = 'center'
-	textarea.rows = 1
-	textarea.focus()
-	textarea.value = ''
-	chatboxNoMessage.style.display = 'none'
-	scrollBottom()
-}
+// 	if(isValid(textarea.value)) {
+// 		writeMessage()
+// 		setTimeout(autoReply, 1000)
+// 	}
+// })
 
-function autoReply() {
-	const today = new Date()
-	let message = `
-		<div class="chatbox-message-item received">
-			<span class="chatbox-message-item-text">
-            {{ formatted_response }}
-			</span>
-			<span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
-		</div>
-	`
-	chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
-	scrollBottom()
-}
 
-function scrollBottom() {
-	chatboxMessageWrapper.scrollTo(0, chatboxMessageWrapper.scrollHeight)
-}
 
-function isValid(value) {
-	let text = value.replace(/\n/g, '')
-	text = text.replace(/\s/g, '')
+// function addZero(num) {
+// 	return num < 10 ? '0'+num : num
+// }
 
-	return text.length > 0
-}
+// function writeMessage() {
+// 	const today = new Date()
+// 	let message = `
+// 		<div class="chatbox-message-item sent">
+// 			<span class="chatbox-message-item-text">
+// 				${textarea.value.trim().replace(/\n/g, '<br>\n')}
+// 			</span>
+// 			<span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
+// 		</div>
+// 	`
+// 	chatboxMessageWrapper.insertAdjacentHTML('beforeend', message)
+// 	chatboxForm.style.alignItems = 'center'
+// 	textarea.rows = 1
+// 	textarea.focus()
+// 	textarea.value = ''
+// 	chatboxNoMessage.style.display = 'none'
+// 	scrollBottom()
+// }
+
+// function autoReply(formatted_response) {
+//     const today = new Date();
+//     let message = `
+//         <div class="chatbox-message-item received">
+//             <span class="chatbox-message-item-text">
+//                 ${formatted_response}
+//             </span>
+//             <span class="chatbox-message-item-time">${addZero(today.getHours())}:${addZero(today.getMinutes())}</span>
+//         </div>
+//     `;
+//     chatboxMessageWrapper.insertAdjacentHTML('beforeend', message);
+//     scrollBottom();
+// }
+
+
+// function scrollBottom() {
+// 	chatboxMessageWrapper.scrollTo(0, chatboxMessageWrapper.scrollHeight)
+// }
+
+// function isValid(value) {
+// 	let text = value.replace(/\n/g, '')
+// 	text = text.replace(/\s/g, '')
+
+// 	return text.length > 0
+// }
