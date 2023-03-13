@@ -2,10 +2,10 @@
 
 <link rel="stylesheet" href="{% static 'assistant/home.css' %}">
 <div class="chatbox-message-content">
-    {% if not openaimessage_set %}
+    {% if not message_set %}
         <h4 class="chatbox-message-no-message">You don't have any messages yet!</h4>
     {% else %}
-        {% for message in openaimessage_set %}
+        {% for message in message_set %}
             <div class="chatbox-message-row {% if forloop.last %}last{% endif %}">
                 <div class="chatbox-message-left">
                     <div class="chatbox-message-bubble chatbox-message-bubble-left">
@@ -22,13 +22,13 @@
     {% endif %}
 </div>
 <div class="chatbox-message-bottom">
-    <form action="."  method="POST" class="chatbox-message-form">
+    <form action="." method="POST" class="chatbox-message-form">
         {% csrf_token %}
         <input rows="1" class="chatbox-message-input" placeholder="Type message..." required type="text" autofocus="autofocus" name="prompt" value="{{ prompt }}" id="">
         <button class="btn btn-success fw-bold" type="submit">
             GENERATE
         </button>
-    </form>
+    </form>    
 </div>
 
 <div class="response">
@@ -37,3 +37,4 @@
         <p>{{ formatted_response }}</p>
     {% endif %}
 </div>
+
