@@ -2,10 +2,10 @@
 
 <link rel="stylesheet" href="{% static 'assistant/home.css' %}">
 <div class="chatbox-message-content">
-    {% if not message_set %}
+    {% if not openaimessage_set %}
         <h4 class="chatbox-message-no-message">You don't have any messages yet!</h4>
     {% else %}
-        {% for message in message_set %}
+        {% for message in openaimessage_set %}
             <div class="chatbox-message-row {% if forloop.last %}last{% endif %}">
                 <div class="chatbox-message-left">
                     <div class="chatbox-message-bubble chatbox-message-bubble-left">
