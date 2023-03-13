@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import OpenAIMessage
 
-# Register your models here.
+
+admin.site.register(OpenAIMessage)
