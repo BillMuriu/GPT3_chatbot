@@ -1,40 +1,83 @@
 {% load static %}
-
-<link rel="stylesheet" href="{% static 'assistant/home.css' %}">
-<div class="chatbox-message-content">
-    {% if not openaimessage_set %}
-        <h4 class="chatbox-message-no-message">You don't have any messages yet!</h4>
-    {% else %}
-        {% for message in openaimessage_set %}
-            <div class="chatbox-message-row {% if forloop.last %}last{% endif %}">
-                <div class="chatbox-message-left">
-                    <div class="chatbox-message-bubble chatbox-message-bubble-left">
-                        <p>{{ message.prompt }}</p>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="{% static 'home.css' %}">
+<div class="parent">
+    <div class="test">
+        <div class="chatbox-message-content">
+            {% if not openaimessage_set %}
+                <h4 class="chatbox-message-no-message">You don't have any messages yet!</h4>
+            {% else %}
+                {% for message in openaimessage_set %}
+                    <div class="chatbox-message-row {% if forloop.last %}last{% endif %}">
+                        <div class="chatbox-message-left">
+                            <div class="chatbox-message-bubble chatbox-message-bubble-left">
+                                <p>{{ message.prompt }}</p>
+                            </div>
+                        </div>
+                        <div class="chatbox-message-right">
+                            <div class="chatbox-message-bubble chatbox-message-bubble-right">
+                                <p>{{ message.response }}</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="chatbox-message-right">
-                    <div class="chatbox-message-bubble chatbox-message-bubble-right">
-                        <p>{{ message.response }}</p>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="chatbox-message-bottom">
+        <form action="." method="POST" class="chatbox-message-form" id="prompt">
+            {% csrf_token %}
+            <input id="prmpt" rows="1" class="chatbox-message-input" placeholder="Type message..." name="prompt" required type="text" autofocus="autofocus" name="prompt" value="{{ prompt }}" id="">
+            <button class="btn btn-success fw-bold" type="submit" id="submit-prompt">
+                GENERATE
+              </button>
+        </form>    
+    </div>
+    <div class="test">
+        <div class="response">
+            {% if formatted_response %}
+                <h4>OpenAI Response:</h4>
+                <p id="formatted-response">{{ formatted_response }}</p>
+            {% endif %}
+        </div>
+    </div>
+    
 </div>
-<div class="chatbox-message-bottom">
-    <form action="." method="POST" class="chatbox-message-form">
-        {% csrf_token %}
-        <input rows="1" class="chatbox-message-input" placeholder="Type message..." required type="text" autofocus="autofocus" name="prompt" value="{{ prompt }}" id="">
-        <button class="btn btn-success fw-bold" type="submit">
-            GENERATE
-        </button>
-    </form>    
-</div>
+<script>
+    $(document).ready(function() {
+    $('#submit-prompt').click(function(e) {
+        e.preventDefault(); // prevent the form from submitting normally
+        var form = $('#prompt');
+        var url = form.attr('action');
+        var promptText = $('#prompt').val(); // get the prompt text
 
-<div class="response">
-    {% if formatted_response %}
-        <h4>OpenAI Response:</h4>
-        <p>{{ formatted_response }}</p>
-    {% endif %}
-</div>
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: form.serialize(), // serialize the form data
+            success: function(data) {
+                // update the page with the new data
+                $('#formatted-response').text(data.formatted_response);
+                $('#prompt').val('');
+                // handle any other updates you need to make to the page
+                $('.chatbox-message-content').append('<div class="chatbox-message"><div class="chatbox-message-prompt">' + promptText + '</div></div>'); // add the prompt to the chatbox
+                $('.parent').load(location.href + ' .parent>*', ''); // reload the .parent class after the post request
+            }
+        });
+    });
+
+    setInterval(function() {
+        $.ajax({
+            url: '{% url "home" %}',
+            method: 'GET',
+            success: function(data) {
+                $('.chatbox-message-content').html($(data).find('.chatbox-message-content').html());
+            }
+        });
+    }, 1000);
+});
+
+
+  </script>
+
 
